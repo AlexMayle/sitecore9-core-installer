@@ -35,27 +35,35 @@ Which will generate the following
 You'll notice that the default configs are `xp_config` and `xdb_Config`. These have all of the schema edits which the SIF framework applies for the XP and xDB collections, respectively.
 
 To execute the commands generated against Solr
-```python3 create_default_indexes.py [OPTIONS] | exec```
+```python3 create_default_indexes.py [OPTIONS] | exec
+```
 
 ### Common Cases
 To create and configure the default collections with a one-liner:
-```python3 create_default_indexes.py [OPTIONS] | exec```
+```python3 create_default_indexes.py [OPTIONS] | exec
+```
 
 Create only the xDB collections
-```python create_default_indexes.py -xdb | exec``` 
+```python create_default_indexes.py -xdb | exec
+``` 
 
 Create only the non-XDB collections
-```python create_default_indexes.py -xp | exec```
+```python create_default_indexes.py -xp | exec
+```
 
 ### Advanced
 To create specific collections:
-```python create_specific_indexes.py 'collection0 collection1 collection2'```
+```python create_specific_indexes.py 'collection0 collection1 collection2
+'```
 
 Specify your own configuration:
-```python create_specific_indexes.pay 'collection0' --config /path/to/my/config --args '-n myconfigwillbecalledthisinzookeeper'```
+```python create_specific_indexes.pay 'collection0' --config /path/to/my/config --args '-n myconfigwillbecalledthisinzookeeper
+'```
 
 By default, it assumes the Solr binary is at `/opt/solr/bin/solr` but this can be overriden like so:
-```python create_default_indexes.py -s /path/to/whatever/solr/binary```
+```python create_default_indexes.py -s /path/to/whatever/solr/binary
+```
 
 Provide arguments like shards, replication factor, name of the resulting config in zookeeper, etc:
-```python create_default_indexes.py -args `-rf 2 -s 3 -n myconfigname```
+```python create_default_indexes.py -args `-rf 2 -s 3 -n myconfigname
+```
