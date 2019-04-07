@@ -57,7 +57,20 @@ ADD_ARGS_HELP = (
 
 parser = argparse.ArgumentParser(description=MODULE_DESCRIPTION)
 
+parser.add_argument('-xp',
+                    default=False,
+                    action='store_true',
+                    help="Specify to create non-xdb collections only"
+                   )
+
+parser.add_argument('-xdb',
+                    default=False,
+                    action='store_true',
+                    help="Specify to create xdb collections only"
+                   )
+
 parser.add_argument('-solr',
+                    metavar="SOLR_BINARY_LOCATION",
                     default="/opt/solr/bin/solr",
                     help="Path to the solr binary",
                     type=str
@@ -104,23 +117,34 @@ def create_commands(solr, collections, config, additional_arg_str):
         cmds.append(CREATE_CMD_FMT % (solr, col, config, additional_arg_str))
     return cmds
 
+def create_xp(xp_flag, xdb_flag):
+    if xp_flag == True: return True
+    if xp_flag == False and xdb_flag == False: return True
+    return False
+
+def create_xdb(xp_flag, xdb_flag):
+    if xdb_flag == True: return True
+    if xp_flag == False and xdb_flag == False: return True
+    return False
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    print(args)
  
     xp_collections = add_prefix(args.prefix, COL_LIST)
-    if args.secondary:
-        xp_collections += add_secondary_indexes(xp_collections)
-    commands = create_commands(args.solr,
-                               xp_collections,
-                               XP_CONFIG_LOC,
-                               args.additional_args)
+    if create_xp(args.xp, args.xdb):
+        if args.secondary:
+            xp_collections += add_secondary_indexes(xp_collections)
+        commands = create_commands(args.solr,
+                                   xp_collections,
+                                   XP_CONFIG_LOC,
+                                   args.additional_args)
 
-    xdb_collections = add_prefix(args.xdb_prefix, XDB_COL_LIST)
-    commands += create_commands(args.solr,
-                                xdb_collections,
-                                XDB_CONFIG_LOC,
-                                args.additional_args)
+    if create_xdb(args.xp, args.xdb):
+        xdb_collections = add_prefix(args.xdb_prefix, XDB_COL_LIST)
+        commands += create_commands(args.solr,
+                                    xdb_collections,
+                                    XDB_CONFIG_LOC,
+                                    args.additional_args)
 
     print(' && \\\n'.join(commands))

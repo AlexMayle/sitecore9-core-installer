@@ -23,9 +23,7 @@ XDB_PREFIX_HELP = (
 )
 
 COLLECTION_NAME_HELP = (
-    "The list of collection names. "
-    "(Default: All standard collections installed by the SIF "
-    "Framework.)"
+   "A space delimited list of collections names. Wrap them in quotes." 
 )
 
 ADD_ARGS_HELP = (
@@ -37,6 +35,13 @@ ADD_ARGS_HELP = (
 
 
 parser = argparse.ArgumentParser(description=MODULE_DESCRIPTION)
+parser.add_argument('collections',
+                    default=None,
+                    help=COLLECTION_NAME_HELP,
+                    type=str,
+                    action='append'
+                   )
+
 parser.add_argument('-solr',
                     default="/opt/solr/bin/solr",
                     help="Path to the solr binary",
@@ -45,15 +50,8 @@ parser.add_argument('-solr',
 
 parser.add_argument('-p,', '--prefix',
                     default=COL_PREFIX,
-                    help="The prefix of the non-xdb collection names.",
+                    help="The prefix of the collection names.",
                     type=str
-                   )
-
-parser.add_argument('-c,', '--collection-name',
-                    default=None,
-                    help=COLLECTION_NAME_HELP,
-                    type=str,
-                    action='append'
                    )
 
 parser.add_argument('-args', '--additional-args',
@@ -94,12 +92,12 @@ def create_commands(solr, collections, config, additional_arg_str):
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    print(args)
 
+    collection_names = add_prefix(args.prefix, args.collections)
 
-    collection_names = add_prefix(args.prefix, args.collection_name)
     if args.secondary:
         collection_names += add_secondary_indexes(collection_names)
+
     commands = create_commands(args.solr,
                                collection_names,
                                args.config,
