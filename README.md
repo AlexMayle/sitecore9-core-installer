@@ -1,5 +1,5 @@
 # Sitecore9 Core Installer
-A Python tool to create all the Solr collections needed for Sitecore 9 on linux.
+A Python tool to create all the Solr collections needed for Sitecore 9 on linux. SIF provides no way to install Solr on a linux box, so here you go!
 
 # Features
   - Easily create all of the collections needed for Sitecore 9, just the XP collections, just the xDB collections, or specific custom ones
@@ -77,3 +77,6 @@ Provide arguments like shards, replication factor, name of the resulting config 
 ```
 python create_default_indexes.py -args `-rf 2 -s 3 -n myconfigname
 ```
+
+###Testing
+Tested on Sitecore 9.0.2. I'm unaware of any breaking changes on 9.1.x, so it will likely work there as well. 
