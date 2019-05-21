@@ -79,4 +79,4 @@ python create_default_indexes.py -args `-rf 2 -s 3 -n myconfigname
 ```
 
 ###Testing
-Tested on Sitecore 9.0.2. I'm unaware of any breaking changes on 9.1.x, so it will likely work there as well. 
+Tested on Sitecore 9.0.2. I'm unaware of any breaking changes on 9.1.x, so it will likely work there as well. Please report any issues on GitHub.
